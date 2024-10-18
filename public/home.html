@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    <button id="logoutButton">Log out</button>
+
+    <script>
+      document
+        .getElementById("logoutButton")
+        .addEventListener("click", async () => {
+          try {
+            const response = await fetch("/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+
+            if (response.ok) {
+              window.location.href = "/index.html";
+            } else {
+              const error = await response.text();
+              console.error("Error al cerrar la sesión:", error);
+              alert("Error al cerrar la sesión");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error al cerrar la sesión");
+          }
+        });
+    </script>
+  </body>
+</html>

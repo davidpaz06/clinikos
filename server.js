@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 
 const Database = require("./components/Database");
@@ -24,16 +25,39 @@ app.post("/login", async (req, res) => {
 
   if (!username || !password) {
     return res.status(400).send("Invalid data");
-  } else {
-    if (!session.sessionExist(req, res)) {
-      await session.createSession(req, res);
+  }
+
+  if (!session.sessionExist(req)) {
+    const result = await session.createSession(req);
+    if (result.success) {
+      return res.sendFile(path.join(__dirname, "public/home.html"));
     } else {
-      res.status(400).send("La sesion ya existe");
+      return res.status(400).send(result.message);
     }
+  } else {
+    return res.status(400).send("La sesion ya existe");
   }
 });
 
-app.post("/logout", async (req, res) => {});
+app.post("/logout", async (req, res) => {
+  try {
+    if (session.sessionExist(req)) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error("Error al destruir la sesión:", err);
+          return res.status(500).send("Error al cerrar la sesión");
+        }
+        res.sendFile(path.join(__dirname, "public/home.html"));
+      });
+    } else {
+      res.status(400).send("No hay sesión activa");
+    }
+  } catch (error) {
+    console.error("Error en el proceso de cierre de sesión:", error);
+    res.status(500).send("Error interno del servidor");
+  }
+});
+
 app.post("/toProcess", async (req, res) => {});
 
 app.post("/register", async (req, res) => {
