@@ -7,12 +7,12 @@
   </head>
   <body>
     <!-- log in -->
-    <form action="/login" method="post">
-      <label for="username">Username:</label>
-      <input type="text" id="username" name="username" required />
+    <form>
+      <label for="log-username">Username:</label>
+      <input type="text" id="log-username" name="username" required />
       <br />
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required />
+      <label for="log-password">Password:</label>
+      <input type="password" id="log-password" name="password" required />
       <br />
       <br />
       <button type="submit">Login</button>
@@ -33,5 +33,36 @@
       <br />
       <button type="submit">Register</button>
     </form>
+
+    <script>
+      document
+        .querySelector("form")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+          try {
+            const username = document.getElementById("log-username").value;
+            const password = document.getElementById("log-password").value;
+
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ username, password }),
+            });
+
+            if (response.ok) {
+              window.location.href = "/home.html";
+            } else {
+              const error = await response.text();
+              console.error("Error al iniciar sesión:", error);
+              alert("Error al iniciar sesión");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            alert("Error al iniciar sesión");
+          }
+        });
+    </script>
   </body>
 </html>

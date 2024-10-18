@@ -41,11 +41,11 @@ class Session {
 
 module.exports = Session;
 
-// lo que paso fue que teniamos el componente de sesion acoplado porque le deciamos que el 
+// lo que paso fue que teniamos el componente de sesion acoplado porque le deciamos que el
 // despachaba la respuesta al cliente una vez iniciara sesion
-// (lo cual es cierto pero definimos una respuesta estatica) lo que cambie fue que el createSession() 
+// (lo cual es cierto pero definimos una respuesta estatica) lo que cambie fue que el createSession()
 // que no regrese una response directamente sino que retorne un objeto con una propiedad en base a cual el servidor
-// va a emitir su respuesta. 
+// va a emitir su respuesta.
 
 // agregue la opcion de logout.Session
 
