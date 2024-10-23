@@ -10,6 +10,9 @@ const db = new Database(queries);
 const Session = require("./components/Session");
 const session = new Session(app, db);
 
+const Security = require("./components/Security");
+const security = new Security();
+
 app.use(express.static("public"));
 app.use("/static", express.static("public"));
 
