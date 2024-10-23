@@ -1,5 +1,5 @@
 {
-  "login": "SELECT * FROM usuarios WHERE username = $1 and password = $2",
+  "login": "SELECT * FROM usuarios WHERE username = $1",
   "checkUser": "SELECT * FROM usuarios WHERE username = $1",
   "register": "INSERT INTO usuarios(username, password) VALUES($1, $2)"
 }

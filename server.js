@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const argon2 = require("argon2");
 const app = express();
 
 const Database = require("./components/Database");
@@ -74,7 +75,8 @@ app.post("/register", async (req, res) => {
       return res.status(400).send("User already exists");
     }
 
-    await db.query("register", [username, password]);
+    const hashedPassword = await argon2.hash(password);
+    await db.query("register", [username, hashedPassword]);
 
     res.send("User registered");
   } catch (error) {

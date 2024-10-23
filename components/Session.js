@@ -1,6 +1,7 @@
 class Session {
   constructor(app, db) {
     this.db = db;
+    this.argon2 = require("argon2");
     this.session = require("express-session");
     app.use(
       this.session({
@@ -24,9 +25,17 @@ class Session {
     const { username, password } = req.body;
 
     try {
-      const user = await this.db.query("login", [username, password]);
+      const user = await this.db.query("login", [username]);
 
       if (!user.rows.length) {
+        return { success: false, message: "Datos incorrectos" };
+      }
+
+      const validPassword = await this.argon2.verify(
+        user.rows[0].password,
+        password
+      );
+      if (!validPassword) {
         return { success: false, message: "Datos incorrectos" };
       }
 
@@ -40,4 +49,3 @@ class Session {
 }
 
 module.exports = Session;
-
