@@ -41,13 +41,3 @@ class Session {
 
 module.exports = Session;
 
-// lo que paso fue que teniamos el componente de sesion acoplado porque le deciamos que el
-// despachaba la respuesta al cliente una vez iniciara sesion
-// (lo cual es cierto pero definimos una respuesta estatica) lo que cambie fue que el createSession()
-// que no regrese una response directamente sino que retorne un objeto con una propiedad en base a cual el servidor
-// va a emitir su respuesta.
-
-// agregue la opcion de logout.Session
-
-// hice pruebas iniciales digames y pasó todo bien, igual cuando hagas pull córrelo y verifica y trata de hallar algunna incongruencia
-// o error que se me haya escapado.
